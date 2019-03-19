@@ -1,15 +1,15 @@
 {
-  "main.css": "/MakeNTU2019/static/css/main.e2c05b8e.chunk.css",
-  "main.js": "/MakeNTU2019/static/js/main.a0f43e49.chunk.js",
-  "main.js.map": "/MakeNTU2019/static/js/main.a0f43e49.chunk.js.map",
-  "runtime~main.js": "/MakeNTU2019/static/js/runtime~main.3af2c111.js",
-  "runtime~main.js.map": "/MakeNTU2019/static/js/runtime~main.3af2c111.js.map",
-  "static/css/2.2912b9bb.chunk.css": "/MakeNTU2019/static/css/2.2912b9bb.chunk.css",
-  "static/js/2.56240722.chunk.js": "/MakeNTU2019/static/js/2.56240722.chunk.js",
-  "static/js/2.56240722.chunk.js.map": "/MakeNTU2019/static/js/2.56240722.chunk.js.map",
-  "index.html": "/MakeNTU2019/index.html",
-  "precache-manifest.20231d252555552a05eb21d8015f41ed.js": "/MakeNTU2019/precache-manifest.20231d252555552a05eb21d8015f41ed.js",
-  "service-worker.js": "/MakeNTU2019/service-worker.js",
-  "static/css/2.2912b9bb.chunk.css.map": "/MakeNTU2019/static/css/2.2912b9bb.chunk.css.map",
-  "static/css/main.e2c05b8e.chunk.css.map": "/MakeNTU2019/static/css/main.e2c05b8e.chunk.css.map"
+  "main.css": "./static/css/main.e2c05b8e.chunk.css",
+  "main.js": "./static/js/main.4e9a6b68.chunk.js",
+  "main.js.map": "./static/js/main.4e9a6b68.chunk.js.map",
+  "runtime~main.js": "./static/js/runtime~main.d653cc00.js",
+  "runtime~main.js.map": "./static/js/runtime~main.d653cc00.js.map",
+  "static/css/2.2912b9bb.chunk.css": "./static/css/2.2912b9bb.chunk.css",
+  "static/js/2.56240722.chunk.js": "./static/js/2.56240722.chunk.js",
+  "static/js/2.56240722.chunk.js.map": "./static/js/2.56240722.chunk.js.map",
+  "index.html": "./index.html",
+  "precache-manifest.73c37e851a5cf5611e09a8129e89f9db.js": "./precache-manifest.73c37e851a5cf5611e09a8129e89f9db.js",
+  "service-worker.js": "./service-worker.js",
+  "static/css/2.2912b9bb.chunk.css.map": "./static/css/2.2912b9bb.chunk.css.map",
+  "static/css/main.e2c05b8e.chunk.css.map": "./static/css/main.e2c05b8e.chunk.css.map"
 }
