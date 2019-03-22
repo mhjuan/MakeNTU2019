@@ -1,6 +1,9 @@
 {
   "name": "makentu2019",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "axios": "^0.18.0",
     "babel-loader": "^8.0.5",
     "blueimp-md5": "^2.10.0",
@@ -31,5 +34,9 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "homepage": "."
+  "homepage": ".",
+  "devDependencies": {
+    "csv-writer": "^1.2.0",
+    "pouchdb": "^7.0.0"
+  }
 }
