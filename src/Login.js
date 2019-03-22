@@ -53,7 +53,6 @@ class Login extends Component {
     db.find({ selector: {'team_id': this.state.teamId}, fields: ['team_id', 'md5_password'] })
       .then((res) => res.docs[0])
       .then((data) => {
-        console.log(data)
         if (data.team_id === this.state.teamId &&
           data.md5_password === MD5(this.state.password)) {
           this.props.onLoggedIn();

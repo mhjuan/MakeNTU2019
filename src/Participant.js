@@ -80,7 +80,7 @@ class Participant extends Component {
   render() {
     return (
     <div>
-      <ParticipantNavbar />
+      <ParticipantNavbar onLoggedOut={this.props.onLoggedOut} />
 
       <Container>
         <Row>

@@ -9,6 +9,8 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
 class ParticipantNavbar extends Component {
   constructor(props) {
@@ -33,13 +35,23 @@ class ParticipantNavbar extends Component {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
+              <Link to='/'>
+                <NavLink>Back to main page</NavLink>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <NavLink href='https://tlk.io/makentu2019' target='_blank'>
+                tlk.io <FontAwesomeIcon icon={faExternalLinkAlt} />
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <Link to='/participant/mac-to-ip'>
-                <NavLink style={{color: '#ffffff'}} active>MAC to IP</NavLink>
+                <NavLink active>MAC to IP</NavLink>
               </Link>
             </NavItem>
             <NavItem>
               <Link to='/'>
-                <NavLink style={{color: '#ffffff'}}>Back to main page</NavLink>
+                <NavLink onClick={this.props.onLoggedOut}>Logout</NavLink>
               </Link>
             </NavItem>
           </Nav>

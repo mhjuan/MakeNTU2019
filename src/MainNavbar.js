@@ -49,7 +49,7 @@ class MainNavbar extends Component {
             </NavItem>
             <NavItem>
               <Link to='/login'>
-                <NavLink style={{color: '#ffffff'}}>Participant Page</NavLink>
+                <NavLink>Participant Page</NavLink>
               </Link>
             </NavItem>
           </Nav>

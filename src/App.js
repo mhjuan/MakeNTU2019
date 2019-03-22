@@ -16,10 +16,15 @@ class App extends Component {
     };
 
     this.handleLoggedIn.bind(this);
+    this.handleLoggedOut.bind(this);
   }
 
   handleLoggedIn = () => {
     this.setState({isLoggedIn: true});
+  };
+
+  handleLoggedOut = () => {
+    this.setState({isLoggedIn: false});
   };
 
   render() {
@@ -39,7 +44,7 @@ class App extends Component {
           } />
           <Route path="/participant/mac-to-ip" render={
             (props) => this.state.isLoggedIn ?
-              <Participant {...props} /> :
+              <Participant {...props} onLoggedOut={this.handleLoggedOut} /> :
               <Redirect to='/login' />
           } />
         </div>
