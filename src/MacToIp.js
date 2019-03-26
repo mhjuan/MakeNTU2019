@@ -17,7 +17,7 @@ import PouchdbFind from 'pouchdb-find';
 
 import ParticipantNavbar from './ParticipantNavbar'
 
-class Participant extends Component {
+class MacToIp extends Component {
   constructor(props) {
     super(props);
 
@@ -80,7 +80,7 @@ class Participant extends Component {
   render() {
     return (
     <div>
-      <ParticipantNavbar onLoggedOut={this.props.onLoggedOut} />
+      <ParticipantNavbar {...this.props} active='mac-to-ip' />
 
       <Container>
         <Row>
@@ -122,4 +122,4 @@ class Participant extends Component {
   }
 }
 
-export default Participant;
+export default MacToIp;

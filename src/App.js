@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom
 import './App.css'
 import Main from './Main'
 import Login from './Login'
-import Participant from './Participant'
+import MacToIp from './MacToIp'
+import CorpPrize from './CorpPrize'
 
 class App extends Component {
   constructor(props) {
@@ -12,15 +13,17 @@ class App extends Component {
 
     this.state = {
       isParticipantLoginClicked: false,
-      isLoggedIn: false
+      isLoggedIn: false,
+      teamId: '',
+      password: ''
     };
 
     this.handleLoggedIn.bind(this);
     this.handleLoggedOut.bind(this);
   }
 
-  handleLoggedIn = () => {
-    this.setState({isLoggedIn: true});
+  handleLoggedIn = (teamId, password) => {
+    this.setState({isLoggedIn: true, teamId: teamId, password: password});
   };
 
   handleLoggedOut = () => {
@@ -33,18 +36,25 @@ class App extends Component {
         <div>          
           <Route exact path="/" component={Main} />
           <Route path="/login" render={
-            (props) => this.state.isLoggedIn ?
-              <Redirect to='/participant/mac-to-ip' /> :
-              <Login {...props} onLoggedIn={this.handleLoggedIn} />
+            () => this.state.isLoggedIn ?
+              <Redirect to='/participant' /> :
+              <Login onLoggedIn={this.handleLoggedIn} />
           } />
           <Route exact path="/participant" render={
-            (props) => this.state.isLoggedIn ?
-              <Redirect to='/participant/mac-to-ip' /> :
+            () => this.state.isLoggedIn ?
+              <Redirect to='/participant/corp-prize' /> :
               <Redirect to='/login' />
           } />
           <Route path="/participant/mac-to-ip" render={
-            (props) => this.state.isLoggedIn ?
-              <Participant {...props} onLoggedOut={this.handleLoggedOut} /> :
+            () => this.state.isLoggedIn ?
+              <MacToIp teamId={this.state.teamId} password={this.state.password}
+                onLoggedOut={this.handleLoggedOut} /> :
+              <Redirect to='/login' />
+          } />
+          <Route path="/participant/corp-prize" render={
+            () => this.state.isLoggedIn ?
+              <CorpPrize teamId={this.state.teamId} password={this.state.password}
+                onLoggedOut={this.handleLoggedOut} /> :
               <Redirect to='/login' />
           } />
         </div>

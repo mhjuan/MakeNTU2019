@@ -31,6 +31,7 @@ class ParticipantNavbar extends Component {
         <Link to='/'>
           <NavbarBrand style={{color: '#ffffff'}}>MakeNTU</NavbarBrand>
         </Link>
+        <NavbarBrand style={{color: '#ffffffd0'}}>Team {this.props.teamId.slice(-2)}</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
@@ -46,7 +47,12 @@ class ParticipantNavbar extends Component {
             </NavItem>
             <NavItem>
               <Link to='/participant/mac-to-ip'>
-                <NavLink active>MAC to IP</NavLink>
+                <NavLink active={this.props.active === 'mac-to-ip'}>MAC to IP</NavLink>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link to='/participant/corp-prize'>
+                <NavLink active={this.props.active === 'corp-prize'}>企業獎報名</NavLink>
               </Link>
             </NavItem>
             <NavItem>

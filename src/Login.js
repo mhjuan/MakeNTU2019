@@ -55,7 +55,7 @@ class Login extends Component {
       .then((data) => {
         if (data.team_id === this.state.teamId &&
           data.md5_password === MD5(this.state.password)) {
-          this.props.onLoggedIn();
+          this.props.onLoggedIn(this.state.teamId, this.state.password);
         } else {
           this.setState({
             isLoggingIn: false,
