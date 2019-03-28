@@ -37,13 +37,15 @@ class ParticipantNavbar extends Component {
           <Nav className="ml-auto" navbar>
             <NavItem>
               <Link to='/'>
-                <NavLink>Back to main page</NavLink>
+                <NavLink>回首頁</NavLink>
               </Link>
             </NavItem>
             <NavItem>
-              <NavLink href='https://tlk.io/makentu2019' target='_blank'>
-                tlk.io <FontAwesomeIcon icon={faExternalLinkAlt} />
-              </NavLink>
+              <Link to='/participant/comments'>
+                <NavLink active={this.props.active === 'comments'}>
+                  留言板
+                </NavLink>
+              </Link>
             </NavItem>
             <NavItem>
               <Link to='/participant/mac-to-ip'>
@@ -56,8 +58,13 @@ class ParticipantNavbar extends Component {
               </Link>
             </NavItem>
             <NavItem>
+              <NavLink href='https://trello.com/makentu2019' target='_blank'>
+                技能交換平台 <FontAwesomeIcon icon={faExternalLinkAlt} />
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <Link to='/'>
-                <NavLink onClick={this.props.onLoggedOut}>Logout</NavLink>
+                <NavLink onClick={this.props.onLoggedOut}>登出</NavLink>
               </Link>
             </NavItem>
           </Nav>

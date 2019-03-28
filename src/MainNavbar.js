@@ -45,11 +45,13 @@ class MainNavbar extends Component {
               <NavLink href="/#sponsors">Sponsors</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/#contact">Contact</NavLink>
+              <Link to='/login'>
+                <NavLink>參賽者頁面</NavLink>
+              </Link>
             </NavItem>
             <NavItem>
-              <Link to='/login'>
-                <NavLink>Participant Page</NavLink>
+              <Link to='/pop-prize/_=_'>
+                <NavLink>人氣獎實況</NavLink>
               </Link>
             </NavItem>
           </Nav>

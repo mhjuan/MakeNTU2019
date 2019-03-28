@@ -7,10 +7,8 @@ import {
   Spinner,
   Card,
   CardImg,
-  CardText,
   CardBody,
   CardTitle,
-  CardSubtitle
 } from 'reactstrap';
 import axios from 'axios';
 import PouchDB from 'pouchdb-browser';
@@ -54,8 +52,8 @@ class CorpPrize extends Component {
     this.corpDb = new PouchDB(corpUrl);
   }
 
-  updateCorpPrize = () => {
-    this.corpDb.allDocs({include_docs: true})
+  updateCorpPrize = async () => {
+    await this.corpDb.allDocs({include_docs: true})
       .then((res) => res.rows[0].doc)
       .then((data) => {
         let partCnt = 0;
@@ -81,8 +79,8 @@ class CorpPrize extends Component {
       });
   };
 
-  auth = () => {
-    this.pwdDb.find({ selector: {'team_id': this.props.teamId}, fields: ['team_id', 'md5_password'] })
+  auth = async () => {
+    await this.pwdDb.find({ selector: {'team_id': this.props.teamId}, fields: ['team_id', 'md5_password'] })
       .then((res) => res.docs[0])
       .then((data) => {
         if (data.team_id !== this.props.teamId ||
@@ -96,24 +94,25 @@ class CorpPrize extends Component {
       });
   };
 
-  handleSubmitCorp = (e) => {
+  handleSubmitCorp = async (e) => {
     const corpIdx = e.target.id;
 
     this.setState({isSubmitting: true});
 
-    this.auth();
+    await this.auth();
 
-    this.corpDb.allDocs({include_docs: true})
+    await this.corpDb.allDocs({include_docs: true})
       .then((res) => res.rows[0].doc)
-      .then((data) => {
+      .then(async (data) => {
         data['corp_prize'][corpIdx].push(this.props.teamId.slice(-2));
 
-        this.corpDb.put({
+        await this.corpDb.put({
           _id: data['_id'],
           _rev: data['_rev'],
           corp_prize: data['corp_prize']
+        }).then(async () => {
+          await this.updateCorpPrize();
         }).then(() => {
-          this.updateCorpPrize();
           this.setState({isSubmitting: false});
         });
       })
@@ -123,25 +122,26 @@ class CorpPrize extends Component {
       });
   };
 
-  handleCancelCorp = (e) => {
+  handleCancelCorp = async (e) => {
     const corpIdx = e.target.id;
 
     this.setState({isSubmitting: true});
 
-    this.auth();
+    await this.auth();
 
-    this.corpDb.allDocs({include_docs: true})
+    await this.corpDb.allDocs({include_docs: true})
       .then((res) => res.rows[0].doc)
-      .then((data) => {
+      .then(async (data) => {
         const index = data['corp_prize'][corpIdx].indexOf(this.props.teamId.slice(-2));
         if (index !== -1) data['corp_prize'][corpIdx].splice(index, 1);
 
-        this.corpDb.put({
+        await this.corpDb.put({
           _id: data['_id'],
           _rev: data['_rev'],
           corp_prize: data['corp_prize']
+        }).then(async () => {
+          await this.updateCorpPrize();
         }).then(() => {
-          this.updateCorpPrize();
           this.setState({isSubmitting: false});
         });
       })
@@ -156,7 +156,7 @@ class CorpPrize extends Component {
       return <Spinner color="secondary" />;
     } else if (this.state.partCorp[corpIdx] === true) {
       return <Button color="danger" id={corpIdx} onClick={this.handleCancelCorp}>已報名，點選以取消</Button>;
-    } else if (this.state.partCnt === 3) {
+    } else if (this.state.partCnt >= 3) {
       return <Button color="secondary" disabled>已報滿3個企業獎</Button>;
     } else {
       return <Button color="primary" id={corpIdx} onClick={this.handleSubmitCorp}>報名此企業獎</Button>

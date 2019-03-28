@@ -24,3 +24,4 @@ yarn-error.log*
 
 # password
 pwdList*.csv
+votingKeys*.csv

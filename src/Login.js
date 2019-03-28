@@ -84,7 +84,7 @@ class Login extends Component {
         <Container>
           <Row>
             <Col style={{textAlign: 'center'}}>
-              <h4>Participant Login</h4>
+              <h4>參賽者登入</h4>
             </Col>
           </Row>
 

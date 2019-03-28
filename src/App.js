@@ -4,8 +4,10 @@ import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom
 import './App.css'
 import Main from './Main'
 import Login from './Login'
+import Comments from './Comments'
 import MacToIp from './MacToIp'
 import CorpPrize from './CorpPrize'
+import PopPrize from './PopPrize'
 
 class App extends Component {
   constructor(props) {
@@ -42,7 +44,13 @@ class App extends Component {
           } />
           <Route exact path="/participant" render={
             () => this.state.isLoggedIn ?
-              <Redirect to='/participant/corp-prize' /> :
+              <Redirect to='/participant/comments' /> :
+              <Redirect to='/login' />
+          } />
+          <Route path="/participant/comments" render={
+            () => this.state.isLoggedIn ?
+              <Comments teamId={this.state.teamId} password={this.state.password}
+                onLoggedOut={this.handleLoggedOut} /> :
               <Redirect to='/login' />
           } />
           <Route path="/participant/mac-to-ip" render={
@@ -56,6 +64,9 @@ class App extends Component {
               <CorpPrize teamId={this.state.teamId} password={this.state.password}
                 onLoggedOut={this.handleLoggedOut} /> :
               <Redirect to='/login' />
+          } />
+          <Route path="/pop-prize/:key" render={
+            (match) => <PopPrize {...match}/>
           } />
         </div>
       </Router>
