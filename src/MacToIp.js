@@ -27,7 +27,8 @@ class MacToIp extends Component {
       mac: '',
       isSubmitting: false,
       ip: null,
-      isSubmitError: false
+      isSubmitError: false,
+      isHTTPSError: false
     };
   }
 
@@ -43,38 +44,42 @@ class MacToIp extends Component {
     }
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     this.setState({isSubmitting: true});
-    const account = 'be8a3d9c-c44b-431c-9a32-69389efeb85a-bluemix';
-    const apiKey = 'rmittiourainglaninstudye'; // Read-only key
-    const apiPassword = '4bfea8654942dd867acaccebb4da274a9b6f2705';
 
-    const baseUrl = `https://${apiKey}:${apiPassword}@${account}.cloudant.com/ips`;
-    const db = new PouchDB(baseUrl);
+    const baseUrl = `http://140.112.249.144:10080/`;
 
-    db.find({ selector: {'mac': this.state.mac}, fields: ['mac', 'ip'] })
-      .then((res) => res.docs[0])
-      .then((data) => {
-        if (data.mac === this.state.mac) {
+    let isIpFound = false;
+
+    const dataFound = (data) => {
+      console.log(data[this.state.mac]);
+      if (data[this.state.mac] !== undefined) {
+        isIpFound = true;
+        this.setState({
+          ip: data[this.state.mac],
+          isSubmitting: false
+        });
+      }
+    }
+
+    for (let i = 1; i <= 3; i++) {
+      await axios.get(`${baseUrl}${i}/`)
+        .then((res) => res.data)
+        .then(dataFound)
+        .catch((err) => {
+          console.log(err);
           this.setState({
-            ip: data.ip,
             isSubmitting: false,
-            isSubmitError: false
+            isHTTPSError: true
           });
-        } else {
-          this.setState({
-            isSubmitting: false,
-            isSubmitError: true
-          });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+        });
+      }
+      if (isIpFound === false) {
         this.setState({
           isSubmitting: false,
           isSubmitError: true
         });
-      });
+      }
   };
 
   render() {
@@ -84,13 +89,13 @@ class MacToIp extends Component {
 
       <Container>
         <Row>
-          <Col style={{textAlign: 'center'}}>
+          <Col style={{ textAlign: 'center', marginTop: '3vh' }}>
             <h4>MAC to IP</h4>
           </Col>
         </Row>
 
         <Row>
-          <Col sm={{ size: 4, offset: 4 }} xs={{ size: 8, offset: 2}}>
+          <Col md={{ size: 4, offset: 4 }} sm={{ size: 8, offset: 2}}>
             <Form onKeyPress={this.handleMacKeyPress}>
               <FormGroup>
                 <Label for="mac">Input device MAC address</Label>
@@ -98,6 +103,18 @@ class MacToIp extends Component {
                   onChange={this.handleMacChange} invalid={this.state.isSubmitError} autoFocus/>
                 <FormFeedback>MAC address not found in database</FormFeedback>
               </FormGroup>
+              {
+                this.state.isHTTPSError ?
+                  <div>
+                    <h6 style={{color: 'red'}}>
+                      Network Error<br />
+                    </h6>
+                    <p style={{color: 'red'}}>
+                      Please allow unsafe script (HTTP) or check your network connection.
+                    </p>
+                  </div> :
+                  null
+              }
               <Button onClick={this.handleSubmit}>Find device IP</Button>
             </Form>
           </Col>

@@ -9,6 +9,7 @@
     "blueimp-md5": "^2.10.0",
     "bootstrap": "^4.3.1",
     "disqus-react": "^1.0.5",
+    "form-data": "^2.3.3",
     "gh-pages": "^2.0.1",
     "pouchdb-browser": "^7.0.0",
     "pouchdb-find": "^7.0.0",
@@ -20,7 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",

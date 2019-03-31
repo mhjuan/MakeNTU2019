@@ -22,7 +22,7 @@ class PopPrize extends Component {
 
     this.state = {
       auth: false,
-      isSubmitting: false,
+      isSubmitting: true,
       voteCnt: 0,
       popCnt: [[]],
       votePop: [...Array(50)].map(x => false)
@@ -147,12 +147,12 @@ class PopPrize extends Component {
   };
 
   renderBtn = (popIdx) => {
-    if (this.state.auth === false) {
-      return <Button color="secondary" disabled>索取QR Code登入投票</Button>;
-    } else if (this.state.isSubmitting === true) {
+    if (this.state.isSubmitting === true) {
       return <Spinner color="secondary" />;
+    } else if (this.state.auth === false) {
+      return <Button color="secondary" disabled>索取QR Code登入投票</Button>;
     } else if (this.state.votePop[popIdx] === true) {
-      return <Button color="danger" id={popIdx} onClick={this.handleCancelPop}>已投票，點選取消</Button>;
+      return <Button color="danger" id={popIdx} onClick={this.handleCancelPop}>已投給此組，點選取消</Button>;
     } else if (this.state.voteCnt >= 2) {
       return <Button color="secondary" disabled>已投滿2個人氣獎</Button>;
     } else {
@@ -160,15 +160,16 @@ class PopPrize extends Component {
     }
   };
 
-  componentDidMount() {
-    this.auth();
-    this.updatePopPrize();
-  }
+  componentDidMount = async () => {
+    await this.auth();
+    await this.updatePopPrize();
+    this.setState({isSubmitting: false});
+  };
 
   render() {
     return (
     <div>
-      <MainNavbar />
+      <MainNavbar active='pop-prize' />
 
       <Container>
         <Row>
@@ -181,7 +182,7 @@ class PopPrize extends Component {
           this.state.auth ? 
           <Row>
             <Col style={{ textAlign: 'center', marginTop: '2vh' }}>
-              已投{this.state.voteCnt}個 / 剩餘{2 - this.state.voteCnt}個
+              <h6>已投{this.state.voteCnt}個 | 剩餘{2 - this.state.voteCnt}個</h6>
             </Col>
           </Row>
           : null

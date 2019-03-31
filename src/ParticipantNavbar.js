@@ -41,13 +41,6 @@ class ParticipantNavbar extends Component {
               </Link>
             </NavItem>
             <NavItem>
-              <Link to='/participant/comments'>
-                <NavLink active={this.props.active === 'comments'}>
-                  留言板
-                </NavLink>
-              </Link>
-            </NavItem>
-            <NavItem>
               <Link to='/participant/mac-to-ip'>
                 <NavLink active={this.props.active === 'mac-to-ip'}>MAC to IP</NavLink>
               </Link>
@@ -58,7 +51,7 @@ class ParticipantNavbar extends Component {
               </Link>
             </NavItem>
             <NavItem>
-              <NavLink href='https://trello.com/makentu2019' target='_blank'>
+              <NavLink href='https://trello.com/b/Sg47Q9WC/makentu2019' target='_blank'>
                 技能交換平台 <FontAwesomeIcon icon={faExternalLinkAlt} />
               </NavLink>
             </NavItem>

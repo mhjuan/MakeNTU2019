@@ -9,6 +9,10 @@ import {
   CardImg,
   CardBody,
   CardTitle,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import axios from 'axios';
 import PouchDB from 'pouchdb-browser';
@@ -28,12 +32,15 @@ class CorpPrize extends Component {
     super(props);
 
     this.state = {
+      dropdownOpen: [false, false, false, false, false, false],
       isSubmitting: false,
       partCnt: 0,
       corpCnt: [[]],
       partCorp: [false, false, false, false, false, false]
     };
-    
+
+    this.handleSubmitCorp.bind(this);
+
     PouchDB.plugin(PouchdbFind);    
 
     const account = 'be8a3d9c-c44b-431c-9a32-69389efeb85a-bluemix';
@@ -50,6 +57,18 @@ class CorpPrize extends Component {
     this.pwdDb = new PouchDB(pwdUrl);
     this.corpDb = new PouchDB(corpUrl);
   }
+
+  toggle = (e) => {
+    const corpIdx = e.target.parentNode.id;
+
+    let dropdownOpen = this.state.dropdownOpen
+
+    dropdownOpen[corpIdx] = !dropdownOpen[corpIdx]
+
+    this.setState({
+      dropdownOpen: dropdownOpen
+    });
+  };
 
   updateCorpPrize = async () => {
     await this.corpDb.allDocs({include_docs: true})
@@ -95,10 +114,9 @@ class CorpPrize extends Component {
 
   handleSubmitCorp = async (e) => {
     const corpIdx = e.target.id;
-
-    this.setState({isSubmitting: true});
-
-    await this.auth();
+    console.log(e.target.parentNode)
+    
+    await this.handleCancelCorp(e.target.parentNode.parentNode.id);
 
     await this.corpDb.allDocs({include_docs: true})
       .then((res) => res.rows[0].doc)
@@ -121,9 +139,7 @@ class CorpPrize extends Component {
       });
   };
 
-  handleCancelCorp = async (e) => {
-    const corpIdx = e.target.id;
-
+  handleCancelCorp = async (corpIdx) => {
     this.setState({isSubmitting: true});
 
     await this.auth();
@@ -140,13 +156,10 @@ class CorpPrize extends Component {
           corp_prize: data['corp_prize']
         }).then(async () => {
           await this.updateCorpPrize();
-        }).then(() => {
-          this.setState({isSubmitting: false});
         });
       })
       .catch((err) => {
         console.error(err);
-        this.setState({isSubmitting: false});
       });
   };
 
@@ -154,11 +167,38 @@ class CorpPrize extends Component {
     if (this.state.isSubmitting === true) {
       return <Spinner color="secondary" />;
     } else if (this.state.partCorp[corpIdx] === true) {
-      return <Button color="danger" id={corpIdx} onClick={this.handleCancelCorp}>已報名，點選以取消</Button>;
-    } else if (this.state.partCnt >= 3) {
-      return <Button color="secondary" disabled>已報滿3個企業獎</Button>;
+      if (this.props.over === true) {
+        return <Button color="primary" disabled>您報名此企業獎</Button>;
+      }
+      return (
+        <Dropdown id={corpIdx} isOpen={this.state.dropdownOpen[corpIdx]} toggle={this.toggle}>
+          <DropdownToggle caret>
+            已報名，點選以更改
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem disabled={corpIdx === 0 || this.state.partCorp[0]} id={0} onClick={this.handleSubmitCorp} >
+              國泰金控
+            </DropdownItem>
+            <DropdownItem disabled={corpIdx === 1 || this.state.partCorp[1]} id={1} onClick={this.handleSubmitCorp} >
+              聯發科技
+            </DropdownItem>
+            <DropdownItem disabled={corpIdx === 2 || this.state.partCorp[2]} id={2} onClick={this.handleSubmitCorp} >
+              玉山銀行
+            </DropdownItem>
+            <DropdownItem disabled={corpIdx === 3 || this.state.partCorp[3]} id={3} onClick={this.handleSubmitCorp} >
+              中華電信
+            </DropdownItem>
+            <DropdownItem disabled={corpIdx === 4 || this.state.partCorp[4]} id={4} onClick={this.handleSubmitCorp} >
+              意法半導體
+            </DropdownItem>
+            <DropdownItem disabled={corpIdx === 5 || this.state.partCorp[5]} id={5} onClick={this.handleSubmitCorp} >
+              遠傳電信
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      );
     } else {
-      return <Button color="primary" id={corpIdx} onClick={this.handleSubmitCorp}>報名此企業獎</Button>
+      return <Button color="secondary" disabled>未選擇</Button>;
     }
   };
 
@@ -171,17 +211,18 @@ class CorpPrize extends Component {
 
       <Container>
         <Row>
-          <Col style={{ textAlign: 'center', marginTop: '3vh' }}>
-            <h4>企業獎報名</h4>
-            <h6>3/30 18:00截止</h6>
-            16:00後只能換組，不得新增，請儘速選擇。
-          </Col>
-        </Row>
-
-        <Row>
-          <Col style={{ textAlign: 'center', marginTop: '2vh' }}>
-            <h6>已報{this.state.partCnt}個 | 剩餘{3 - this.state.partCnt}個</h6>
-          </Col>
+          {
+            this.props.over ?
+              <Col style={{ textAlign: 'center', marginTop: '3vh' }}>
+                <h4>企業獎報名</h4>
+                <h6>已截止</h6>
+              </Col> :
+              <Col style={{ textAlign: 'center', marginTop: '3vh' }}>
+                <h4>企業獎報名</h4>
+                <h6>3/30 18:00截止</h6>
+                16:00後只能換組，不得新增，請儘速選擇。
+            </Col>
+          }
         </Row>
 
         <Row>

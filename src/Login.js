@@ -18,6 +18,8 @@ import PouchDB from 'pouchdb-browser';
 import PouchdbFind from 'pouchdb-find';
 import MD5 from 'blueimp-md5';
 
+import MainNavbar from './MainNavbar'
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -75,21 +77,17 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <Navbar dark expand="md" style={{backgroundColor: '#008080f0'}}>
-          <Link to='/'>
-            <NavbarBrand style={{color: '#ffffff'}}>MakeNTU</NavbarBrand>
-          </Link>
-        </Navbar>
+        <MainNavbar active='login' />
 
         <Container>
           <Row>
-            <Col style={{textAlign: 'center'}}>
+            <Col style={{ textAlign: 'center', marginTop: '3vh' }}>
               <h4>參賽者登入</h4>
             </Col>
           </Row>
 
           <Row>
-            <Col sm={{ size: 4, offset: 4 }} xs={{ size: 8, offset: 2}}>
+            <Col md={{ size: 4, offset: 4 }} sm={{ size: 8, offset: 2}}>
               <Form>
                 <FormGroup>
                   <Label for="team-id">Team ID</Label>

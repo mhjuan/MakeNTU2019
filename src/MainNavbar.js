@@ -45,13 +45,20 @@ class MainNavbar extends Component {
               <NavLink href="/#sponsors">Sponsors</NavLink>
             </NavItem>
             <NavItem>
-              <Link to='/login'>
-                <NavLink>參賽者頁面</NavLink>
+              <Link to='/comments'>
+                <NavLink active={this.props.active === 'comments'}>
+                  留言板
+                </NavLink>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link to='/login' >
+                <NavLink active={this.props.active === 'login'}>參賽者頁面</NavLink>
               </Link>
             </NavItem>
             <NavItem>
               <Link to='/pop-prize/_=_'>
-                <NavLink>人氣獎實況</NavLink>
+                <NavLink active={this.props.active === 'pop-prize'}>人氣獎實況</NavLink>
               </Link>
             </NavItem>
           </Nav>

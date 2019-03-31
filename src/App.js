@@ -7,6 +7,7 @@ import Login from './Login'
 import Comments from './Comments'
 import MacToIp from './MacToIp'
 import CorpPrize from './CorpPrize'
+import CorpPrizeLate from './CorpPrizeLate'
 import PopPrize from './PopPrize'
 
 class App extends Component {
@@ -19,6 +20,9 @@ class App extends Component {
       teamId: '',
       password: ''
     };
+
+    this.corpEarlyDeadline = new Date(2019, 3 - 1, 30, 16, 0)
+    this.corpDeadline = new Date(2019, 3 - 1, 30, 18, 0)
 
     this.handleLoggedIn.bind(this);
     this.handleLoggedOut.bind(this);
@@ -44,15 +48,10 @@ class App extends Component {
           } />
           <Route exact path="/participant" render={
             () => this.state.isLoggedIn ?
-              <Redirect to='/participant/comments' /> :
+              <Redirect to='/participant/corp-prize' /> :
               <Redirect to='/login' />
           } />
-          <Route path="/participant/comments" render={
-            () => this.state.isLoggedIn ?
-              <Comments teamId={this.state.teamId} password={this.state.password}
-                onLoggedOut={this.handleLoggedOut} /> :
-              <Redirect to='/login' />
-          } />
+          <Route path="/comments" component={Comments}/>
           <Route path="/participant/mac-to-ip" render={
             () => this.state.isLoggedIn ?
               <MacToIp teamId={this.state.teamId} password={this.state.password}
@@ -61,8 +60,18 @@ class App extends Component {
           } />
           <Route path="/participant/corp-prize" render={
             () => this.state.isLoggedIn ?
-              <CorpPrize teamId={this.state.teamId} password={this.state.password}
-                onLoggedOut={this.handleLoggedOut} /> :
+              (
+                new Date() >= this.corpDeadline ?
+                  <CorpPrizeLate teamId={this.state.teamId} password={this.state.password}
+                    onLoggedOut={this.handleLoggedOut} over /> :
+                  (
+                    new Date() >= this.corpEarlyDeadline ?
+                      <CorpPrizeLate teamId={this.state.teamId} password={this.state.password}
+                        onLoggedOut={this.handleLoggedOut} /> :
+                      <CorpPrize teamId={this.state.teamId} password={this.state.password}
+                        onLoggedOut={this.handleLoggedOut} />
+                  )
+              ) :
               <Redirect to='/login' />
           } />
           <Route path="/pop-prize/:key" render={
